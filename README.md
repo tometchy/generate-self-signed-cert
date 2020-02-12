@@ -5,9 +5,9 @@ docker build -t generate-self-signed-cert .
 ```
 
 # Running container
-Run created image with proper environment variables and mount directory from host to _/out_ directory in container:
+Run created image with proper environment variables and mount directory from host to _/out_ directory in container, for example:
 ``` bash
-docker run -e 'DOMAIN=localhost' -e 'PASSWORD=password' -e 'O=SoftwareDeveloper.Blog' -e 'C=PL' -e 'ST=Sanok' -e 'L=Posada' -e 'OU=IT' -e 'EMAIL=Contact@SoftwareDeveloper.Blog' -v /home/tometchy/Downloads/cert:/out generate-self-signed-cert 
+docker run -e 'DOMAIN=localhost' -e 'PASSWORD=password' -e 'O=SoftwareDeveloper.Blog' -e 'C=PL' -e 'ST=Podkarpackie' -e 'L=Sanok' -e 'OU=IT' -e 'EMAIL=Contact@SoftwareDeveloper.Blog' -e 'DAYS=3650' -v /home/tometchy/Downloads/cert:/out generate-self-signed-cert 
 ```
 Remember to create mount directory on host before running.
 
@@ -16,8 +16,10 @@ You can skip parameters which you don't need. For example:
 ``` bash
 docker run -e 'DOMAIN=localhost' -e 'PASSWORD=password' -v /home/tometchy/Downloads/cert:/out generate-self-signed-cert 
 ```
-Will produce certificate, but you will see these messages:
+
+will produce certificate, but you will see warning messages:
 ```
+DAYS environment variable is not assigned, setting 365 days
 Generating RSA private key, 2048 bit long modulus (2 primes)
 .................................................................+++++
 .......+++++
@@ -36,5 +38,5 @@ Open _Docker settings > Resources > File sharing_ and choose local drive which y
 Then restart Docker (even if button says _Apply and restart_).  
 At the moment of writing you must use slashes instead of backslashes in Windows path, for example:
 ``` bash
-docker run -e 'DOMAIN=localhost' -e 'PASSWORD=password' -e 'O=SoftwareDeveloper.Blog' -e 'C=PL' -e 'ST=Sanok' -e 'L=Posada' -e 'OU=IT' -e 'EMAIL=contact@SoftwareDeveloper.Blog' -v C:/Users/tometchy/Desktop/cert:/out generate-self-signed-cert 
+docker run -e 'DOMAIN=localhost' -e 'PASSWORD=password' -e 'O=SoftwareDeveloper.Blog' -e 'C=PL' -e 'ST=Podkarpackie' -e 'L=Sanok' -e 'OU=IT' -e 'EMAIL=Contact@SoftwareDeveloper.Blog' -e 'DAYS=3650' -v C:/Users/tometchy/Desktop/cert:/out generate-self-signed-cert 
 ```
