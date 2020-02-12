@@ -12,6 +12,12 @@ docker run -e 'DOMAIN=localhost' -e 'PASSWORD=password' -e 'O=SoftwareDeveloper.
 Remember to create mount directory on host before running.
 
 ## Note1
+You can set alternative domain names with _ALT_DOMAINS_ environment variable, separated with semicolon (_;_), for example:
+``` bash
+docker run -e 'DOMAIN=example.com' -e 'ALT_DOMAINS=www.example.com' -e 'PASSWORD=password' -e 'O=SoftwareDeveloper.Blog' -e 'C=PL' -e 'ST=Podkarpackie' -e 'L=Sanok' -e 'OU=IT' -e 'EMAIL=Contact@SoftwareDeveloper.Blog' -e 'DAYS=3650' -v /home/tometchy/Downloads/cert:/out generate-self-signed-cert 
+```
+
+## Note2
 You can skip parameters which you don't need. For example:
 ``` bash
 docker run -e 'DOMAIN=localhost' -e 'PASSWORD=password' -v /home/tometchy/Downloads/cert:/out generate-self-signed-cert 
@@ -28,7 +34,7 @@ req: No value provided for Subject Attribute OU, skipped
 req: No value provided for Subject Attribute emailAddress, skipped
 ```
 
-## Note2
+## Note3
 To use it on Windows, you must first enable file sharing for your host drive.  
 Open _Docker settings > Resources > File sharing_ and choose local drive which you to mount to container.
 Then restart Docker (even if button says _Apply and restart_).  

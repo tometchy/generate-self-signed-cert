@@ -5,5 +5,6 @@ RUN apk add --no-cache openssl
 WORKDIR /generator
 
 COPY generate-self-signed-cert.sh .
+COPY custom-openssl.cnf .
 
 ENTRYPOINT ["/bin/sh", "generate-self-signed-cert.sh"]
