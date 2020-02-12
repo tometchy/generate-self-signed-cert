@@ -1,6 +1,9 @@
 #!/bin/sh
 
-mkdir /out
+if [ ! -d "/out" ]; then
+  echo "Volume not set correctly, generated certficate will not be populated to host"
+  mkdir /out
+fi
 
 openssl genrsa 2048 > /out/${DOMAIN}_private.pem
 openssl req -x509 -new -key /out/${DOMAIN}_private.pem -out /out/${DOMAIN}_public.pem -passout pass:${PASSWORD} -subj "/C=${C}/ST=${ST}/L=${L}/O=${O}/OU=${OU}/CN=${DOMAIN}/emailAddress=${EMAIL}"
