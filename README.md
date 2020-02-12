@@ -34,6 +34,8 @@ req: No value provided for Subject Attribute OU, skipped
 req: No value provided for Subject Attribute emailAddress, skipped
 ```
 
+You can even skip setting password, but then **certificate will contain NOT encrypted private key**.
+
 ## Note3
 To use it on Windows, you must first enable file sharing for your host drive.  
 Open _Docker settings > Resources > File sharing_ and choose local drive which you to mount to container.

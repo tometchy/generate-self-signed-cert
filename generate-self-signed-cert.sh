@@ -17,6 +17,13 @@ then
       DAYS=365;
 fi
 
+if [ -n "$PASSWORD" ]; then
+  pkcs12_additional=" -passout pass:${PASSWORD}"
+else
+  echo "PASSWORD environment variable is not assigned, pfx file will contain NOT encrypted private key"
+  pkcs12_additional=" -nodes -passout pass:"
+fi
+
 if [ -n "$ALT_DOMAINS" ]; then
   echo "Alternative names provided: ${ALT_DOMAINS}"
   req_additional=" -config custom-openssl.cnf"
@@ -47,4 +54,4 @@ openssl genrsa -out /out/${DOMAIN}.key 2048
 openssl req -new -out /out/${DOMAIN}.csr -key /out/${DOMAIN}.key -subj "/C=${C}/ST=${ST}/L=${L}/O=${O}/OU=${OU}/CN=${DOMAIN}/emailAddress=${EMAIL}"${req_additional}
 openssl x509 -req -days ${DAYS} -in /out/${DOMAIN}.csr -signkey /out/${DOMAIN}.key -out /out/${DOMAIN}.crt${x509_additional}
 rm -f /out/${DOMAIN}.csr
-openssl pkcs12 -export -out /out/${DOMAIN}.pfx -inkey /out/${DOMAIN}.key -in /out/${DOMAIN}.crt -passout pass:${PASSWORD}
+openssl pkcs12 -export -out /out/${DOMAIN}.pfx -inkey /out/${DOMAIN}.key -in /out/${DOMAIN}.crt${pkcs12_additional}
