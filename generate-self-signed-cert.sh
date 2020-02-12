@@ -11,7 +11,8 @@ then
       DAYS=365;
 fi
 
-openssl genrsa 2048 > /out/${DOMAIN}_private.pem
-openssl req -x509 -new -key /out/${DOMAIN}_private.pem -out /out/${DOMAIN}_public.pem -passout pass:${PASSWORD} -days ${DAYS} -subj "/C=${C}/ST=${ST}/L=${L}/O=${O}/OU=${OU}/CN=${DOMAIN}/emailAddress=${EMAIL}"
-openssl pkcs12 -export -in /out/${DOMAIN}_public.pem -inkey /out/${DOMAIN}_private.pem -out /out/${DOMAIN}.pfx -passout pass:${PASSWORD} 
-openssl pkcs12 -in /out/${DOMAIN}.pfx -out /out/${DOMAIN}.crt -nokeys -passin pass:${PASSWORD}
+openssl genrsa -out /out/${DOMAIN}.key 2048
+openssl req -new -out /out/${DOMAIN}.csr -key /out/${DOMAIN}.key -subj "/C=${C}/ST=${ST}/L=${L}/O=${O}/OU=${OU}/CN=${DOMAIN}/emailAddress=${EMAIL}" #-config custom-openssl.cnf
+openssl x509 -req -days ${DAYS} -in /out/${DOMAIN}.csr -signkey /out/${DOMAIN}.key -out /out/${DOMAIN}.crt # -extensions v3_req -extfile custom-openssl.cnf
+rm -f /out/${DOMAIN}.csr
+openssl pkcs12 -export -out /out/${DOMAIN}.pfx -inkey /out/${DOMAIN}.key -in /out/${DOMAIN}.crt -passout pass:${PASSWORD}

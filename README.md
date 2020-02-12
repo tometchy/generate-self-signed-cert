@@ -17,13 +17,9 @@ You can skip parameters which you don't need. For example:
 docker run -e 'DOMAIN=localhost' -e 'PASSWORD=password' -v /home/tometchy/Downloads/cert:/out generate-self-signed-cert 
 ```
 
-will produce certificate, but you will see warning messages:
+will produce certificate, but you will see warning messages, for example:
 ```
 DAYS environment variable is not assigned, setting 365 days
-Generating RSA private key, 2048 bit long modulus (2 primes)
-.................................................................+++++
-.......+++++
-e is 65537 (0x010001)
 req: No value provided for Subject Attribute C, skipped
 req: No value provided for Subject Attribute ST, skipped
 req: No value provided for Subject Attribute L, skipped
