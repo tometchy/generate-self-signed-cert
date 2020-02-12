@@ -7,5 +7,5 @@ docker build -t generateselfsignedcert .
 # Running container
 Run created image with proper environment variables:
 ``` bash
-docker run -e 'DOMAIN=localhost' -e 'PASSWORD=password' -e 'ORGANIZATION=SoftwareDeveloper.Blog' -e 'COUNTRY=PL' -e 'ST=Sanok' generateselfsignedcert 
+docker run -e 'DOMAIN=localhost' -e 'PASSWORD=password' -e 'ORGANIZATION=SoftwareDeveloper.Blog' -e 'COUNTRY=PL' -e 'ST=Sanok' -e 'L=Posada' generateselfsignedcert 
 ```
