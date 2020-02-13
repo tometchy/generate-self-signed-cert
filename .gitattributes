@@ -2,6 +2,7 @@
 
 *.cs            text diff=csharp
 *.sh    	text eol=lf
+*.cnf    	text eol=lf
 **/Dockerfile   text eol=lf
 *.yml   	text eol=lf
 
