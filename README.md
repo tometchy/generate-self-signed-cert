@@ -44,3 +44,6 @@ At the moment of writing you must use slashes instead of backslashes in Windows 
 ``` bash
 docker run -e 'DOMAIN=localhost' -e 'PASSWORD=password' -e 'O=SoftwareDeveloper.Blog' -e 'C=PL' -e 'ST=Podkarpackie' -e 'L=Sanok' -e 'OU=IT' -e 'EMAIL=Contact@SoftwareDeveloper.Blog' -e 'DAYS=3650' -v C:/Users/tometchy/Desktop/cert:/out generate-self-signed-cert 
 ```
+## Note4
+In case of problems with certificate, there is human readable version of certificate in .crt.txt file, so you can investigate and even
+compare certificates with diff tool such as _Meld_.

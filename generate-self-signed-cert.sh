@@ -55,3 +55,4 @@ openssl req -new -out /out/${DOMAIN}.csr -key /out/${DOMAIN}.key -subj "/C=${C}/
 openssl x509 -req -days ${DAYS} -in /out/${DOMAIN}.csr -signkey /out/${DOMAIN}.key -out /out/${DOMAIN}.crt${x509_additional}
 rm -f /out/${DOMAIN}.csr
 openssl pkcs12 -export -out /out/${DOMAIN}.pfx -inkey /out/${DOMAIN}.key -in /out/${DOMAIN}.crt${pkcs12_additional}
+openssl x509 -text -in /out/${DOMAIN}.crt > /out/${DOMAIN}.crt.txt
