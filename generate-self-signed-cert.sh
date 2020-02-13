@@ -18,20 +18,19 @@ then
 fi
 
 if [ -n "$PASSWORD" ]; then
-  pkcs12_additional=" -passout pass:${PASSWORD}"
+  privateKeyEncryption=" -passout pass:${PASSWORD}"
 else
   echo "PASSWORD environment variable is not assigned, pfx file will contain NOT encrypted private key"
-  pkcs12_additional=" -nodes -passout pass:"
+  privateKeyEncryption=" -nodes -passout pass:"
 fi
 
 if [ -n "$ALT_DOMAINS" ]; then
   echo "Alternative names provided: ${ALT_DOMAINS}"
-  req_additional=" -config custom-openssl.cnf"
-  x509_additional=" -extensions v3_req -extfile custom-openssl.cnf"
+  req_additional=" -extensions v3_req  -config /var/www/example.com/cert/custom-openssl.cnf"
   
   set_main="DNS.1 = ${DOMAIN}"
   echo "$set_main"
-  echo "$set_main" >> custom-openssl.cnf
+  echo "$set_main" >> /var/www/example.com/cert/custom-openssl.cnf
   
   domains=$(echo $ALT_DOMAINS | tr ";" "\n")
   i=2
@@ -42,17 +41,18 @@ if [ -n "$ALT_DOMAINS" ]; then
     fi
     set="DNS.${i} = ${domain}"
     echo "$set"
-    echo "$set" >> custom-openssl.cnf
+    echo "$set" >> /var/www/example.com/cert/custom-openssl.cnf
     i=$(expr $i + 1)
   done
+  set="DNS.${i} = ${DOMAIN}"
+  echo "$set"
+  echo "$set" >> /var/www/example.com/cert/custom-openssl.cnf
 else
   req_additional=""
-  x509_additional=""
 fi
 
 openssl genrsa -out /out/${DOMAIN}.key 2048
-openssl req -new -out /out/${DOMAIN}.csr -key /out/${DOMAIN}.key -subj "/C=${C}/ST=${ST}/L=${L}/O=${O}/OU=${OU}/CN=${DOMAIN}/emailAddress=${EMAIL}"${req_additional}
-openssl x509 -req -days ${DAYS} -in /out/${DOMAIN}.csr -signkey /out/${DOMAIN}.key -out /out/${DOMAIN}.crt${x509_additional}
-rm -f /out/${DOMAIN}.csr
-openssl pkcs12 -export -out /out/${DOMAIN}.pfx -inkey /out/${DOMAIN}.key -in /out/${DOMAIN}.crt${pkcs12_additional}
+openssl req -x509 -new -key /out/${DOMAIN}.key -out /out/${DOMAIN}.crt${privateKeyEncryption} -days ${DAYS} -subj "/C=${C}/ST=${ST}/L=${L}/O=${O}/OU=${OU}/CN=${DOMAIN}/emailAddress=${EMAIL}"${req_additional}
+openssl pkcs12 -export -in /out/${DOMAIN}.crt -inkey /out/${DOMAIN}.key -out /out/${DOMAIN}.pfx${privateKeyEncryption}
+
 openssl x509 -text -in /out/${DOMAIN}.crt > /out/${DOMAIN}.crt.txt
