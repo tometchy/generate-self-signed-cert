@@ -169,7 +169,7 @@ unstructuredName		= An optional company name
 # This goes against PKIX guidelines but some CAs do it and some software
 # requires this to avoid interpreting an end user certificate as a CA.
 
-basicConstraints=CA:FALSE
+basicConstraints=CA:TRUE
 
 # Here are some examples of the usage of nsCertType. If it is omitted
 # the certificate can be used for anything *except* object signing.
@@ -220,9 +220,12 @@ authorityKeyIdentifier=keyid,issuer
 
 # Extensions to add to a certificate request
 
-basicConstraints = CA:FALSE
-keyUsage = nonRepudiation, digitalSignature, keyEncipherment
+basicConstraints = CA:TRUE
+#keyUsage = nonRepudiation, digitalSignature, keyEncipherment
 subjectAltName = @alt_names
+
+subjectKeyIdentifier=hash
+authorityKeyIdentifier=keyid:always,issuer
 
 [ v3_ca ]
 

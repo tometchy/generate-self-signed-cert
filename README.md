@@ -44,6 +44,19 @@ At the moment of writing you must use slashes instead of backslashes in Windows 
 ``` bash
 docker run -e 'DOMAIN=localhost' -e 'PASSWORD=password' -e 'O=SoftwareDeveloper.Blog' -e 'C=PL' -e 'ST=Podkarpackie' -e 'L=Sanok' -e 'OU=IT' -e 'EMAIL=Contact@SoftwareDeveloper.Blog' -e 'DAYS=3650' -v C:/Users/tometchy/Desktop/cert:/out generate-self-signed-cert 
 ```
+
 ## Note4
 In case of problems with certificate, there is human readable version of certificate in .crt.txt file, so you can investigate and even
 compare certificates with diff tool such as _Meld_.
+
+## Note5
+By default this script will generate certificate without KeyUsage property, because it has been observed, that for development
+purposes this way it works better, as noted in official _openssl.cnf_ file:
+> Key usage: this is typical for a CA certificate. However since it will
+> prevent it being used as an test self-signed certificate it is best
+> left out by default.
+
+If you want to add key usage, uncomment _keyUsage_ in proper section of _custom-openssl.cnf_ file,
+depending on certificate type, for example if you use alternative domain names, then you should edit _[ v3_req ]_ section.
+If you don't know which section to edit, simply uncomment every _keyUsage_ in whole file :)  
+Remember to **rebuild image** after changing this file.
