@@ -54,5 +54,5 @@ fi
 openssl genrsa -out /out/${DOMAIN}.key 2048
 openssl req -x509 -new -key /out/${DOMAIN}.key -out /out/${DOMAIN}.crt${privateKeyEncryption} -days ${DAYS} -subj "/C=${C}/ST=${ST}/L=${L}/O=${O}/OU=${OU}/CN=${DOMAIN}/emailAddress=${EMAIL}"${req_additional}
 openssl pkcs12 -export -in /out/${DOMAIN}.crt -inkey /out/${DOMAIN}.key -out /out/${DOMAIN}.pfx${privateKeyEncryption}
-
+openssl x509 -in /out/${DOMAIN}.crt -out /out/${DOMAIN}.pem -outform PEM
 openssl x509 -text -in /out/${DOMAIN}.crt > /out/${DOMAIN}.crt.txt
